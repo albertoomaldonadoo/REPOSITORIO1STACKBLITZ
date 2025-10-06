@@ -11,35 +11,6 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
   </div>
 `
 
-async function listaDePersonajes() {
-    const respuestaFetch = await fetch('https://dragonball-api.com/api/characters');
-    const datosPersonajes = await respuestaFetch.json();
-    const listaPersonajes = datosPersonajes.items;
-
-    const contenedor = document.getElementById('mostrarPersonajes');
-
-    listaPersonajes.forEach((personaje: any) => {
-      const tarjeta = document.createElement('div');
-      tarjeta.innerHTML = 
-      `
-        <h2>Nombre: ${personaje.name}</h2>
-        <p>ID: ${personaje.id}</p>
-        <p>KI: ${personaje.ki}</p>
-        <p>MaxKi: ${personaje.maxKi}</p>
-        <p>Raza: ${personaje.race}</p>
-        <p>Genero: ${personaje.gender}</p>
-        <p>Descripcion: ${personaje.description}</p>
-        <p>Afilacion: ${personaje.affiliation}</p>
-        
-        <img src="${personaje.image}" alt="fotodelpersonaje"/>
-      `;
-
-      contenedor!.appendChild(tarjeta);
-    });
-}
-
-listaDePersonajes();
-
 /*CON RXJS*/
 
 const respuestaFetchRXJS = fromFetch('https://dragonball-api.com/api/characters').pipe(
@@ -54,7 +25,7 @@ const respuestaFetchRXJS = fromFetch('https://dragonball-api.com/api/characters'
  
 respuestaFetchRXJS.subscribe({
     next: (result:any) => {
-      const element = document.getElementById('app');
+      const element = document.getElementById('mostrarPersonajes');
       if(element){
         result['items'].map((character:any)=>{
           element.innerHTML+=`
@@ -91,7 +62,7 @@ respuestaFetchRXJS.subscribe({
               <div class="data-container">
                  <p>Afilacion: ${character['affiliation']}</p>
               </diV>
-            </div>\n`
+            </div>`
         })
       }
       
